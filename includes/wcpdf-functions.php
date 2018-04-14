@@ -98,6 +98,10 @@ function wcpdf_get_invoice( $order, $init = false ) {
 	return wcpdf_get_document( 'invoice', $order, $init );
 }
 
+function wcpdf_get_deposit_invoice( $order, $init = false ) {
+	return wcpdf_get_document( 'deposit_invoice', $order, $init );
+}
+
 function wcpdf_get_packing_slip( $order, $init = false ) {
 	return wcpdf_get_document( 'packing-slip', $order, $init );
 }

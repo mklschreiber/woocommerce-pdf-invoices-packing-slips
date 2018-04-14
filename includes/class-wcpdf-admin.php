@@ -15,7 +15,9 @@ class Admin {
 	function __construct()	{
 		add_action( 'woocommerce_admin_order_actions_end', array( $this, 'add_listing_actions' ) );
 		add_filter( 'manage_edit-shop_order_columns', array( $this, 'add_invoice_number_column' ), 999 );
+		add_filter( 'manage_edit-shop_order_columns', array( $this, 'add_deposit_invoice_number_column' ), 999 );
 		add_action( 'manage_shop_order_posts_custom_column', array( $this, 'invoice_number_column_data' ), 2 );
+		add_action( 'manage_shop_order_posts_custom_column', array( $this, 'deposit_invoice_number_column_data' ), 2 );
 		add_action( 'add_meta_boxes_shop_order', array( $this, 'add_meta_boxes' ) );
 		add_action( 'admin_footer', array( $this, 'bulk_actions' ) );
 		add_filter( 'woocommerce_shop_order_search_fields', array( $this, 'search_fields' ) );
@@ -157,6 +159,25 @@ class Admin {
 	}
 
 	/**
+	 * Create additional Shop Order column for Deposit Invoice Numbers
+	 * @param array $columns shop order columns
+	 */
+	public function add_deposit_invoice_number_column( $columns ) {
+		// get deposit invoice settings
+		$deposit_invoice = wcpdf_get_deposit_invoice( null );
+		$deposit_invoice_settings = $deposit_invoice->get_settings();
+		if ( !isset( $deposit_invoice_settings['deposit_invoice_number_column'] ) ) {
+			return $columns;
+		}
+
+		// put the column after the Status column
+		$new_columns = array_slice($columns, 0, 2, true) +
+			array( 'pdf_deposit_invoice_number' => __( 'Deposit Invoice Number', 'woocommerce-pdf-invoices-packing-slips' ) ) +
+			array_slice($columns, 2, count($columns) - 1, true) ;
+		return $new_columns;
+	}
+
+	/**
 	 * Display Invoice Number in Shop Order column (if available)
 	 * @param  string $column column slug
 	 */
@@ -175,6 +196,29 @@ class Admin {
 					echo $invoice->get_number();
 				}
 				do_action( 'wcpdf_invoice_number_column_end', $the_order );
+			}
+		}
+	}
+
+	/**
+	 * Display Deposit Invoice Number in Shop Order column (if available)
+	 * @param  string $column column slug
+	 */
+	public function deposit_invoice_number_column_data( $column ) {
+		global $post, $the_order;
+
+		if ( $column == 'pdf_deposit_invoice_number' ) {
+			if ( empty( $the_order ) || WCX_Order::get_id( $the_order ) != $post->ID ) {
+				$order = WCX::get_order( $post->ID );
+				if ( $deposit_invoice = wcpdf_get_deposit_invoice( $order ) ) {
+					echo $deposit_invoice->get_number();
+				}
+				do_action( 'wcpdf_deposit_invoice_number_column_end', $order );
+			} else {
+				if ( $deposit_invoice = wcpdf_get_invoice( $the_order ) ) {
+					echo $deposit_invoice->get_number();
+				}
+				do_action( 'wcpdf_deposit_invoice_number_column_end', $the_order );
 			}
 		}
 	}
@@ -279,7 +323,7 @@ class Admin {
 		</ul>
 		<?php
 	}
-
+	
 	/**
 	 * Add metabox for invoice number & date
 	 */
@@ -287,6 +331,61 @@ class Admin {
 		$order = WCX::get_order( $post->ID );
 
 		do_action( 'wpo_wcpdf_meta_box_start', $post->ID );
+		
+		if ( $deposit_invoice = wcpdf_get_deposit_invoice( $order ) ) {
+			$deposit_invoice_number = $deposit_invoice->get_number();
+			$deposit_invoice_date = $deposit_invoice->get_date();
+			?>
+			<div class="wcpdf-data-fields">
+				<h4><?php echo $deposit_invoice->get_title(); ?><?php if ($deposit_invoice->exists()) : ?><span id="" class="wpo-wcpdf-edit-date-number dashicons dashicons-edit"></span><?php endif; ?></h4>
+
+				<!-- Read only -->
+				<div class="read-only">
+					<?php if ($deposit_invoice->exists()) : ?>
+					<div class="deposit-invoice-number">
+						<p class="form-field _wcpdf_deposit_invoice_number_field ">	
+							<p>
+								<span><strong><?php _e( 'Deposit Invoice Number', 'woocommerce-pdf-invoices-packing-slips' ); ?>:</strong></span>
+								<span><?php if (!empty($deposit_invoice_number)) echo $deposit_invoice_number->get_formatted(); ?></span>
+							</p>
+						</p>
+					</div>
+
+					<div class="deposit-invoice-date">
+						<p class="form-field form-field-wide">
+							<p>
+								<span><strong><?php _e( 'Deposit Invoice Date:', 'woocommerce-pdf-invoices-packing-slips' ); ?></strong></span>
+								<span><?php if (!empty($deposit_invoice_date)) echo $deposit_invoice_date->date_i18n( wc_date_format().' @ '.wc_time_format() ); ?></span>
+							</p>
+						</p>
+					</div>
+					<?php else : ?>
+					<span class="wpo-wcpdf-set-date-number button"><?php _e( 'Set deposit invoice number & date', 'woocommerce-pdf-invoices-packing-slips' ) ?></span>
+					<?php endif; ?>
+				</div>
+
+				<!-- Editable -->
+				<div class="editable">
+					<p class="form-field _wcpdf_deposit_invoice_number_field ">
+						<label for="_wcpdf_deposit_invoice_number"><?php _e( 'Deposit Invoice Number (unformatted!)', 'woocommerce-pdf-invoices-packing-slips' ); ?>:</label>
+						<?php if ( $deposit_invoice->exists() && !empty($deposit_invoice_number) ) : ?>
+						<input type="text" class="short" style="" name="_wcpdf_deposit_invoice_number" id="_wcpdf_deposit_invoice_number" value="<?php echo $deposit_invoice_number->get_plain(); ?>" disabled="disabled">
+						<?php else : ?>
+						<input type="text" class="short" style="" name="_wcpdf_deposit_invoice_number" id="_wcpdf_deposit_invoice_number" value="" disabled="disabled">
+						<?php endif; ?>
+					</p>
+					<p class="form-field form-field-wide">
+						<label for="wcpdf_deposit_invoice_date"><?php _e( 'Deposit Invoice Date:', 'woocommerce-pdf-invoices-packing-slips' ); ?></label>
+						<?php if ( $deposit_invoice->exists() && !empty($deposit_invoice_date) ) : ?>
+						<input type="text" class="date-picker-field" name="wcpdf_deposit_invoice_date" id="wcpdf_deposit_invoice_date" maxlength="10" value="<?php echo $deposit_invoice_date->date_i18n( 'Y-m-d' ); ?>" pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])" disabled="disabled"/>@<input type="number" class="hour" placeholder="<?php _e( 'h', 'woocommerce' ) ?>" name="wcpdf_deposit_invoice_date_hour" id="wcpdf_deposit_invoice_date_hour" min="0" max="23" size="2" value="<?php echo $deposit_invoice_date->date_i18n( 'H' ) ?>" pattern="([01]?[0-9]{1}|2[0-3]{1})" />:<input type="number" class="minute" placeholder="<?php _e( 'm', 'woocommerce' ) ?>" name="wcpdf_deposit_invoice_date_minute" id="wcpdf_deposit_invoice_date_minute" min="0" max="59" size="2" value="<?php echo $deposit_invoice_date->date_i18n( 'i' ); ?>" pattern="[0-5]{1}[0-9]{1}" />
+						<?php else : ?>
+						<input type="text" class="date-picker-field" name="wcpdf_deposit_invoice_date" id="wcpdf_deposit_invoice_date" maxlength="10" disabled="disabled" value="" pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])" />@<input type="number" class="hour" disabled="disabled" placeholder="<?php _e( 'h', 'woocommerce' ) ?>" name="wcpdf_deposit_invoice_date_hour" id="wcpdf_deposit_invoice_date_hour" min="0" max="23" size="2" value="" pattern="([01]?[0-9]{1}|2[0-3]{1})" />:<input type="number" class="minute" placeholder="<?php _e( 'm', 'woocommerce' ) ?>" name="wcpdf_deposit_invoice_date_minute" id="wcpdf_deposit_invoice_date_minute" min="0" max="59" size="2" value="" pattern="[0-5]{1}[0-9]{1}" disabled="disabled" />
+						<?php endif; ?>
+					</p>
+				</div>
+			</div>
+			<?php
+		}
 		
 		if ( $invoice = wcpdf_get_invoice( $order ) ) {
 			$invoice_number = $invoice->get_number();
@@ -399,6 +498,24 @@ class Admin {
 				}
 
 				$invoice->save();
+			}
+
+			if ( $deposit_invoice = wcpdf_get_deposit_invoice( $order ) ) {
+				if ( isset( $_POST['wcpdf_deposit_invoice_date'] ) ) {
+					$date = $_POST['wcpdf_deposit_invoice_date'];
+					$hour = !empty( $_POST['wcpdf_deposit_invoice_date_hour'] ) ? $_POST['wcpdf_deposit_invoice_date_hour'] : '00';
+					$minute = !empty( $_POST['wcpdf_deposit_invoice_date_minute'] ) ? $_POST['wcpdf_deposit_invoice_date_minute'] : '00';
+					$deposit_invoice_date = "{$date} {$hour}:{$minute}:00";
+					$deposit_invoice->set_date( $deposit_invoice_date );
+				} elseif ( empty( $_POST['wcpdf_deposit_invoice_date'] ) && !empty( $_POST['_wcpdf_deposit_invoice_number'] ) ) {
+					$deposit_invoice->set_date( current_time( 'timestamp', true ) );
+				}
+
+				if ( isset( $_POST['_wcpdf_deposit_invoice_number'] ) ) {
+					$deposit_invoice->set_number( $_POST['_wcpdf_deposit_invoice_number'] );
+				}
+
+				$deposit_invoice->save();
 			}
 		}
 	}

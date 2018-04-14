@@ -19,6 +19,9 @@ msgstr ""
 msgid "Invoice Number"
 msgstr "Rechnungsnummer"
 
+msgid "Deposit Invoice Number"
+msgstr "Anzahlungsrechnungsnummer"
+
 #: includes/class-wcpdf-admin.php:105
 msgid "Create PDF"
 msgstr "PDF erstellen"
@@ -35,18 +38,30 @@ msgstr "PDF Rechnungsdaten"
 msgid "Invoice"
 msgstr "Rechnung"
 
+msgid "Deposit Invoice"
+msgstr "Anzahlungsrechnung"
+
 #: includes/class-wcpdf-admin.php:183 includes/class-wcpdf-admin.php:204
 #: templates/Simple/invoice.php:56
 msgid "Invoice Date:"
 msgstr "Rechnungsdatum:"
 
+msgid "Deposit Invoice Date:"
+msgstr "Anzahlungsrechnungsdatum:"
+
 #: includes/class-wcpdf-admin.php:189
 msgid "Set invoice number & date"
-msgstr "Erstellen  Sie Rechnungsnummer und Rechnungsdatum"
+msgstr "Erstellen Sie Rechnungsnummer und Rechnungsdatum"
+
+msgid "Set deposit invoice number & date"
+msgstr "Erstellen Sie Anzahlungsrechnungsnummer und Anzahlungsrechnungsdatum"
 
 #: includes/class-wcpdf-admin.php:196
 msgid "Invoice Number (unformatted!)"
 msgstr "Rechnungsnummer (unformatiert)"
+
+msgid "Deposit Invoice Number (unformatted!)"
+msgstr "Anzahlungsnummer (unformatiert)"
 
 #: includes/class-wcpdf-admin.php:206 includes/class-wcpdf-admin.php:208
 msgid "h"
@@ -59,6 +74,9 @@ msgstr "Min"
 #: includes/class-wcpdf-frontend.php:55
 msgid "Download invoice (PDF)"
 msgstr "Rechnung runterladen (PDF)"
+
+msgid "Download deposit invoice (PDF)"
+msgstr "Anzahlungsrechnung runterladen (PDF)"
 
 #: includes/class-wcpdf-main.php:132 includes/class-wcpdf-main.php:153
 #: includes/class-wcpdf-main.php:160 includes/class-wcpdf-main.php:166
@@ -396,13 +414,22 @@ msgstr "Telefonnummer anzeigen"
 msgid "Display invoice date"
 msgstr "Rechnungsdatum anzeigen"
 
+msgid "Display deposit invoice date"
+msgstr "Anzahlungsrechnungsdatum anzeigen"
+
 #: includes/documents/class-wcpdf-invoice.php:200
 msgid "Display invoice number"
 msgstr "Rechnungsnummer anzeigen"
 
+msgid "Display deposit invoice number"
+msgstr "Anzahlungsrechnungsnummer anzeigen"
+
 #: includes/documents/class-wcpdf-invoice.php:212
 msgid "Next invoice number (without prefix/suffix etc.)"
 msgstr "Nächste Rechnungsnummer (ohne Präfix/Suffix usw.)"
+
+msgid "Next deposit invoice number (without prefix/suffix etc.)"
+msgstr "Nächste Anzahlungsrechnungsnummer (ohne Präfix/Suffix usw.)"
 
 #: includes/documents/class-wcpdf-invoice.php:218
 msgid ""
@@ -433,6 +460,11 @@ msgstr ""
 "Um das Rechnungsjahr bzw. den Rechnungsmonat zu verwenden, verwenden Sie "
 "[invoice_year] bzw.[invoice_month]."
 
+msgid ""
+"um das Rechnungsjahr bzw. den Rechnungsmonat zu verwenden, verwenden Sie "
+"[deposit_invoice_year] bzw. [deposit_invoice_month]."
+msgstr ""
+
 #: includes/documents/class-wcpdf-invoice.php:237
 msgid "Suffix"
 msgstr "Suffix"
@@ -459,13 +491,22 @@ msgstr ""
 msgid "Reset invoice number yearly"
 msgstr "Rechnungsnummer jährlich zurücksetzen"
 
+msgid "Reset deposit invoice number yearly"
+msgstr "Anzahlungsrechnungsnummer jährlich zurücksetzen"
+
 #: includes/documents/class-wcpdf-invoice.php:265
 msgid "Allow My Account invoice download"
 msgstr "Download der Rechnung über Mein Account zulassen"
 
+msgid "Allow My Account deposit invoice download"
+msgstr "Download der Anzahlungsrechnung über Mein Account zulassen"
+
 #: includes/documents/class-wcpdf-invoice.php:272
 msgid "Only when an invoice is already created/emailed"
 msgstr "Nur wenn eine Rechnung erstellt/verschickt wurde"
+
+msgid "Only when an deposit invoice is already created/emailed"
+msgstr "Nur wenn eine Anzahlungsrechnung erstellt/verschickt wurde"
 
 #: includes/documents/class-wcpdf-invoice.php:273
 msgid "Only for specific order statuses (define below)"
@@ -482,6 +523,9 @@ msgstr "Niemals"
 #: includes/documents/class-wcpdf-invoice.php:290
 msgid "Enable invoice number column in the orders list"
 msgstr "Aktivierung Spalte Rechnungsnummer in Bestellübersicht"
+
+msgid "Enable deposit invoice number column in the orders list"
+msgstr "Aktivierung Spalte Anzahlungsrechnungsnummer in Bestellübersicht"
 
 #: includes/documents/class-wcpdf-invoice.php:301
 msgid "Disable for free products"
@@ -501,6 +545,9 @@ msgstr ""
 #: includes/documents/class-wcpdf-invoice.php:321
 msgid "Invoice numbers are created by a third-party extension."
 msgstr "Rechnungsnummern werden von einer Drittanbieter-Erweiterung erstellt."
+
+msgid "Deposit Invoice numbers are created by a third-party extension."
+msgstr "Anzahlungsrechnungsnummern werden von einer Drittanbieter-Erweiterung erstellt."
 
 #: includes/documents/class-wcpdf-invoice.php:323
 #, php-format
@@ -796,6 +843,9 @@ msgstr "Versand nach:"
 #: templates/Simple/invoice.php:50
 msgid "Invoice Number:"
 msgstr "Rechnungsnummer:"
+
+msgid "Deposit Invoice Number:"
+msgstr "Anzahlungsrechnungsnummer:"
 
 #: templates/Simple/invoice.php:61 templates/Simple/packing-slip.php:49
 msgid "Order Number:"

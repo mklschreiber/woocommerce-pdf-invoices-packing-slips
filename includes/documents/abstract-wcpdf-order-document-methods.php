@@ -1072,6 +1072,37 @@ abstract class Order_Document_Methods extends Order_Document {
 		return $item_price;
 	}
 
+	public function get_deposit_invoice_number() {
+		// Call the woocommerce_deposit_invoice_number filter and let third-party plugins set a number.
+		// Default is null, so we can detect whether a plugin has set the invoice number
+		$third_party_deposit_invoice_number = apply_filters( 'woocommerce_deposit_invoice_number', null, $this->order_id );
+		if ($third_party_deposit_invoice_number !== null) {
+			return $third_party_deposit_invoice_number;
+		}
+
+		if ( $deposit_invoice_number = $this->get_number('deposit_invoice') ) {
+			return $formatted_deposit_invoice_number = $deposit_invoice_number->get_formatted();
+		} else {
+			return '';
+		}
+	}
+
+	public function deposit_invoice_number() {
+		echo $this->get_deposit_invoice_number();
+	}
+
+	public function get_deposit_invoice_date() {
+		if ( $deposit_invoice_date = $this->get_date('deposit_invoice') ) {
+			return $deposit_invoice_date->date_i18n( apply_filters( 'wpo_wcpdf_date_format', wc_date_format(), $this ) );
+		} else {
+			return '';
+		}
+	}
+
+	public function deposit_invoice_date() {
+		echo $this->get_deposit_invoice_date();
+	}
+
 	public function get_invoice_number() {
 		// Call the woocommerce_invoice_number filter and let third-party plugins set a number.
 		// Default is null, so we can detect whether a plugin has set the invoice number
@@ -1102,7 +1133,6 @@ abstract class Order_Document_Methods extends Order_Document {
 	public function invoice_date() {
 		echo $this->get_invoice_date();
 	}
-
 
 }
 

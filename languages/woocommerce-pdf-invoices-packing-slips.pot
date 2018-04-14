@@ -21,6 +21,9 @@ msgstr ""
 msgid "Invoice Number"
 msgstr ""
 
+msgid "Deposit Invoice Number"
+msgstr ""
+
 #: includes/class-wcpdf-admin.php:105
 msgid "Create PDF"
 msgstr ""
@@ -37,17 +40,29 @@ msgstr ""
 msgid "Invoice"
 msgstr ""
 
+msgid "Deposit Invoice"
+msgstr ""
+
 #: includes/class-wcpdf-admin.php:183 includes/class-wcpdf-admin.php:204
 #: templates/Simple/invoice.php:56
 msgid "Invoice Date:"
+msgstr ""
+
+msgid "Deposit Invoice Date:"
 msgstr ""
 
 #: includes/class-wcpdf-admin.php:189
 msgid "Set invoice number & date"
 msgstr ""
 
+msgid "Set deposit invoice number & date"
+msgstr ""
+
 #: includes/class-wcpdf-admin.php:196
 msgid "Invoice Number (unformatted!)"
+msgstr ""
+
+msgid "Deposit Invoice Number (unformatted!)"
 msgstr ""
 
 #: includes/class-wcpdf-admin.php:206 includes/class-wcpdf-admin.php:208
@@ -60,6 +75,9 @@ msgstr ""
 
 #: includes/class-wcpdf-frontend.php:55
 msgid "Download invoice (PDF)"
+msgstr ""
+
+msgid "Download deposit invoice (PDF)"
 msgstr ""
 
 #: includes/class-wcpdf-main.php:132 includes/class-wcpdf-main.php:153
@@ -373,12 +391,21 @@ msgstr ""
 msgid "Display invoice date"
 msgstr ""
 
+msgid "Display deposit invoice date"
+msgstr ""
+
 #: includes/documents/class-wcpdf-invoice.php:200
 msgid "Display invoice number"
 msgstr ""
 
+msgid "Display deposit invoice number"
+msgstr ""
+
 #: includes/documents/class-wcpdf-invoice.php:212
 msgid "Next invoice number (without prefix/suffix etc.)"
+msgstr ""
+
+msgid "Next deposit invoice number (without prefix/suffix etc.)"
 msgstr ""
 
 #: includes/documents/class-wcpdf-invoice.php:218
@@ -400,6 +427,11 @@ msgstr ""
 #: includes/documents/class-wcpdf-invoice.php:234
 msgid ""
 "to use the invoice year and/or month, use [invoice_year] or [invoice_month] "
+"respectively"
+msgstr ""
+
+msgid ""
+"to use the deposit invoice year and/or month, use [deposit_invoice_year] or [deposit_invoice_month] "
 "respectively"
 msgstr ""
 
@@ -425,12 +457,21 @@ msgstr ""
 msgid "Reset invoice number yearly"
 msgstr ""
 
+msgid "Reset deposit invoice number yearly"
+msgstr ""
+
 #: includes/documents/class-wcpdf-invoice.php:265
 msgid "Allow My Account invoice download"
 msgstr ""
 
+msgid "Allow My Account deposit invoice download"
+msgstr ""
+
 #: includes/documents/class-wcpdf-invoice.php:272
 msgid "Only when an invoice is already created/emailed"
+msgstr ""
+
+msgid "Only when an deposit invoice is already created/emailed"
 msgstr ""
 
 #: includes/documents/class-wcpdf-invoice.php:273
@@ -449,6 +490,9 @@ msgstr ""
 msgid "Enable invoice number column in the orders list"
 msgstr ""
 
+msgid "Enable deposit invoice number column in the orders list"
+msgstr ""
+
 #: includes/documents/class-wcpdf-invoice.php:301
 msgid "Disable for free products"
 msgstr ""
@@ -460,6 +504,9 @@ msgstr ""
 
 #: includes/documents/class-wcpdf-invoice.php:321
 msgid "Invoice numbers are created by a third-party extension."
+msgstr ""
+
+msgid "Deposit Invoice numbers are created by a third-party extension."
 msgstr ""
 
 #: includes/documents/class-wcpdf-invoice.php:323
@@ -715,6 +762,9 @@ msgstr ""
 
 #: templates/Simple/invoice.php:50
 msgid "Invoice Number:"
+msgstr ""
+
+msgid "Deposit Invoice Number:"
 msgstr ""
 
 #: templates/Simple/invoice.php:61 templates/Simple/packing-slip.php:49

@@ -54,8 +54,9 @@ class Documents {
 		include_once( dirname( __FILE__ ) . '/documents/class-wcpdf-sequential-number-store.php' );
 
 		// Load Invoice & Packing Slip
-		$this->documents['\WPO\WC\PDF_Invoices\Documents\Invoice']		= include( 'documents/class-wcpdf-invoice.php' );
-		$this->documents['\WPO\WC\PDF_Invoices\Documents\Packing_Slip']	= include( 'documents/class-wcpdf-packing-slip.php' );
+		$this->documents['\WPO\WC\PDF_Invoices\Documents\Deposit_Invoice']		= include( 'documents/class-wcpdf-deposit-invoice.php' );
+		$this->documents['\WPO\WC\PDF_Invoices\Documents\Invoice']				= include( 'documents/class-wcpdf-invoice.php' );
+		$this->documents['\WPO\WC\PDF_Invoices\Documents\Packing_Slip']			= include( 'documents/class-wcpdf-packing-slip.php' );
 
 		// Allow plugins to add their own documents
 		$this->documents = apply_filters( 'wpo_wcpdf_document_classes', $this->documents );
